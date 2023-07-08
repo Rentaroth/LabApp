@@ -1,10 +1,13 @@
 from rest_framework import serializers
 from .models import Users, Groups, Experiments, Samples, Tests, Results
 
+from django.contrib.auth import hashers
+
 class UsersSerializer(serializers.ModelSerializer):
   class Meta:
     model = Users
     fields='__all__'
+
   
 class GroupsSerializer(serializers.ModelSerializer):
   class Meta:
