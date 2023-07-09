@@ -5,5 +5,6 @@ def error_handler(func):
     try:
       return func(*args, **kwargs)
     except Exception as err:
-      return Response({"error": str(err)}, status=500)
+      print(str(err))
+      return Response({"error": 'Something went wrong!' }, status=500)
   return handler

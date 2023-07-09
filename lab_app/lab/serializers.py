@@ -1,11 +1,10 @@
-import datetime
 from rest_framework import serializers
 from rest_framework import status
-from .models import Users, Groups, Experiments, Samples, Tests, Results
+from .models import Users, Groups, Invitations, Experiments, Samples, Tests, Results
 
 class UsersSerializer(serializers.ModelSerializer):
   username = serializers.CharField(max_length=25)
-  email = serializers.CharField(max_length=85)
+  email = serializers.EmailField(max_length=85)
   password = serializers.CharField(max_length=255)
   created_at = serializers.DateTimeField()
   updated_at = serializers.DateTimeField()
@@ -15,8 +14,18 @@ class UsersSerializer(serializers.ModelSerializer):
     fields='__all__'
   
 class GroupsSerializer(serializers.ModelSerializer):
+  name = serializers.CharField(max_length=25)
+  lider_id = serializers.IntegerField()
+  created_at = serializers.DateTimeField()
+  updated_at = serializers.DateTimeField()
+  
   class Meta:
     model = Groups
+    fields='__all__'
+
+class InvitationsSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Invitations
     fields='__all__'
 
 class ExperimentsSerializer(serializers.ModelSerializer):
