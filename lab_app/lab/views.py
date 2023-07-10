@@ -52,6 +52,36 @@ class GroupsMethods(BaseMethods):
   def __init__(self):
     super().__init__(serializer=GroupsSerializer, model=Groups)
 
+  @error_handler
+  def get(self, request, _id):
+    obj = get_object_or_404(self.model, id=_id)
+    dic = obj.__dict__
+    joins = obj.users_id.all()
+    dic['members'] = []
+    for item in joins:
+      item_dic = item.__dict__
+      print(item_dic)
+      clean = {i: j for i, j in item_dic.items() if i not in ['_state', 'password']}
+      dic['members'].append(clean)
+    result = {i: j for i, j in dic.items() if i not in ['_state']}
+    return Response({'result': result}, status=status.HTTP_302_FOUND)
+
+class JoiningGroups(APIView):
+  serializer = GroupsSerializer
+  model = Groups
+  
+  @jwt_protection
+  def put(self, request, inv_token):
+    decoded = jwt.decode(inv_token, settings.SECRET_KEY, algorithms=['HS256'])
+    user_id = decoded.get('_to')
+    print(decoded)
+    group_id = decoded.get('group_id')
+    group = get_object_or_404(self.model, id=group_id)
+
+    group.users_id.add(user_id)
+    group.save()
+    return Response({ 'process': 'Done!', 'changes': group.users_id.all() }, status=status.HTTP_200_OK)
+
 class InvitationsMethods(BaseMethods):
   def __init__(self):
     super().__init__(serializer=InvitationsSerializer, model=Invitations)

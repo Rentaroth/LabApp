@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import LoginView, LogoutView, UserMethods, GroupsMethods, InvitationsMethods, ExperimentsMethods, SamplesMethods, TestsMethods, ResultsMethods
+from .views import LoginView, LogoutView, UserMethods, GroupsMethods,JoiningGroups, InvitationsMethods, ExperimentsMethods, SamplesMethods, TestsMethods, ResultsMethods
 
 urlpatterns = [
   path('login', LoginView.as_view(), name='login'),
@@ -7,7 +7,7 @@ urlpatterns = [
   path('user', UserMethods.as_view(), name='user'),
   path('user/<int:_id>', UserMethods.as_view(), name='user_by_id'),
   path('groups', GroupsMethods.as_view(), name='groups'),
-  path('groups/new_member', GroupsMethods.as_view(), name='groups_new_mwmber'),
+  path('groups/new_member/<str:inv_token>', JoiningGroups.as_view(), name='groups_new_mwmber'),
   path('groups/<int:_id>', GroupsMethods.as_view(), name='groups_by_id'),
   path('invitations', InvitationsMethods.as_view(), name='invitations'),
   path('invitations/<int:_id>', InvitationsMethods.as_view(), name='invitations_by_id'),

@@ -26,17 +26,10 @@ class BaseMethods(APIView):
 
   @error_handler
   def get(self, request, _id):
-    if _id:
-      obj = get_object_or_404(self.model, id=_id)
-      dic = obj.__dict__
-      del dic['_state']
-      return Response({'result': dic}, status=status.HTTP_302_FOUND)
-    else:
-      obj = self.model.objects.all()
-      for item in obj:
-        dic = obj.__dict__
-      del dic['_state']
-      return Response({'result': dic}, status=status.HTTP_302_FOUND)
+    obj = get_object_or_404(self.model, id=_id)
+    dic = obj.__dict__
+    del dic['_state']
+    return Response({'result': dic}, status=status.HTTP_302_FOUND)
         
   
   @error_handler

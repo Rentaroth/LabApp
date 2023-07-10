@@ -5,6 +5,15 @@ def error_handler(func):
   def handler(*args, **kwargs):
     try:
       return func(*args, **kwargs)
+    except jwt.DecodeError as err:
+      print(str(err))
+      print("Error al decodificar el token")
+    except jwt.ExpiredSignatureError:
+      print(str(err))
+      print("Token JWT expirado")
+    except jwt.InvalidTokenError:
+      print(str(err))
+      print("Token JWT inválido")
     except Exception as err:
       print(str(err))
       return Response({"error": 'Something went wrong!' }, status=500)
@@ -12,12 +21,12 @@ def error_handler(func):
 
 @error_handler
 def jwt_protection(func):
-  def protection(self, request):
+  def protection(self, request, *args, **kwargs):
     try:
       token = request.META.get('HTTP_AUTHORIZATION')
       validated = jwt.decode(token[7:], verify=True, algorithms=['HS256'])
       request.data['validated_token'] = validated
-      return func(self, request)
+      return func(self, request, *args, **kwargs)
     except jwt.DecodeError as err:
       print(str(err))
       print("Error al decodificar el token")
