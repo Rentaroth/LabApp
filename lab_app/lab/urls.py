@@ -7,6 +7,7 @@ urlpatterns = [
   path('user', UserMethods.as_view(), name='user'),
   path('user/<int:_id>', UserMethods.as_view(), name='user_by_id'),
   path('groups', GroupsMethods.as_view(), name='groups'),
+  path('groups/new_member', GroupsMethods.as_view(), name='groups_new_mwmber'),
   path('groups/<int:_id>', GroupsMethods.as_view(), name='groups_by_id'),
   path('invitations', InvitationsMethods.as_view(), name='invitations'),
   path('invitations/<int:_id>', InvitationsMethods.as_view(), name='invitations_by_id'),

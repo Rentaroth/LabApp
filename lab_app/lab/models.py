@@ -24,6 +24,7 @@ class Groups(models.Model):
 class Invitations(models.Model):
   _from = models.IntegerField()
   _to = models.ForeignKey(to=Users, on_delete=models.CASCADE)
+  group_id = models.IntegerField(null=True)
   token = models.TextField()
   created_at = models.DateTimeField(default=timezone.now)
   updated_at = models.DateTimeField(default=timezone.now)
@@ -34,7 +35,7 @@ class Invitations(models.Model):
 class Experiments(models.Model):
   name = models.CharField(max_length=25, unique=True)
   description = models.TextField(max_length=800)
-  group_id = models.ForeignKey(to=Groups, on_delete=models.CASCADE)
+  group_id = models.ForeignKey(to=Groups, on_delete=models.CASCADE, null=True)
   created_at = models.DateTimeField(default=timezone.now)
   updated_at = models.DateTimeField(default=timezone.now)
 
