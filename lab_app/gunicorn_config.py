@@ -22,5 +22,5 @@ errorlog = '/path/to/error.log'
 # Nivel de registro para el archivo de registro
 loglevel = 'info'
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'tu_proyecto.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'lab_app.settings'
 app = get_application()
