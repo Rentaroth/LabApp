@@ -3,6 +3,9 @@ import os
 from django.conf import settings
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lab_app.settings')
+settings.configure()
+
 def get_application():
     django_app = settings.WSGI_APPLICATION
     return django_app
@@ -22,5 +25,4 @@ errorlog = '/path/to/error.log'
 # Nivel de registro para el archivo de registro
 loglevel = 'info'
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'lab_app.settings'
 app = get_application()
