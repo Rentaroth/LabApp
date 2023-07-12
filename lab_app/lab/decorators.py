@@ -14,13 +14,16 @@ def error_handler(func):
     except jwt.InvalidTokenError:
       print(str(err))
       print("Invalid JWT Token")
+    except TypeError as err:
+      print(str(err))
+      return Response({"error": 'Something went wrong!' }, status=500)
     except Exception as err:
       print(str(err))
       return Response({"error": 'Something went wrong!' }, status=500)
   return handler
 
-@error_handler
 def jwt_protection(func):
+  @error_handler
   def protection(self, request, *args, **kwargs):
     token = request.META.get('HTTP_AUTHORIZATION')
     validated = jwt.decode(token[7:], verify=True, algorithms=['HS256'])

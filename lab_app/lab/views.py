@@ -39,7 +39,7 @@ class LoginView(APIView):
         return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class LogoutView(APIView):
-  @error_handler
+  @jwt_protection
   def post(self, request):
     try:
       refresh_token = request.data['refresh_token']
@@ -69,7 +69,7 @@ class UserMethods(BaseMethods):
       return Response({ 'error': serializer.errors }, status=status.HTTP_409_CONFLICT)
 
   @extend_schema(tags=['user'], request=UsersSerializer, **GET_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def get(self, request, _id):
     obj = get_object_or_404(self.model, id=_id)
     dic = obj.__dict__
@@ -78,27 +78,27 @@ class UserMethods(BaseMethods):
     return Response({'result': dic}, status=status.HTTP_302_FOUND)
 
   @extend_schema(tags=['user'], request=UsersSerializer, **PUT_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def put(self, request, _id):
-    return super().put(self, request, _id)
+    return super().put(request, _id)
 
   @extend_schema(tags=['user'], request=UsersSerializer, **DELETE_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def delete(self, request, _id):
-    return super().delete(self, request, _id)
+    return super().delete(request, _id)
 
 class GroupsMethods(BaseMethods):
   def __init__(self):
     super().__init__(serializer=GroupsSerializer, model=Groups)
 
   @extend_schema(tags=['groups'], request=GroupsSerializer, **POST_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def post(self, request):
-    return super().post(self, request)
+    return super().post(request)
 
 
   @extend_schema(tags=['groups'], request=GroupsSerializer, **GET_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def get(self, request, _id):
     obj = get_object_or_404(self.model, id=_id)
     dic = obj.__dict__
@@ -113,14 +113,14 @@ class GroupsMethods(BaseMethods):
     return Response({'result': result}, status=status.HTTP_302_FOUND)
 
   @extend_schema(tags=['groups'], request=GroupsSerializer, **PUT_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def put(self, request, _id):
-    return super().put(self, request, _id)
+    return super().put(request, _id)
 
   @extend_schema(tags=['groups'], request=GroupsSerializer, **DELETE_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def delete(self, request, _id):
-    return super().delete(self, request, _id)
+    return super().delete(request, _id)
 
 class JoiningGroups(APIView):
   serializer = GroupsSerializer
@@ -173,112 +173,112 @@ class InvitationsMethods(BaseMethods):
       return Response({ 'error': serializer.errors }, status=status.HTTP_409_CONFLICT)
 
   @extend_schema(tags=['invitations'], request=InvitationsSerializer, **GET_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def get(self, request, _id):
-    return super().get(self, request, _id)
+    return super().get(request, _id)
 
   @extend_schema(tags=['invitations'], request=InvitationsSerializer, **PUT_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def put(self, request, _id):
-    return super().put(self, request, _id)
+    return super().put(request, _id)
 
   @extend_schema(tags=['invitations'], request=InvitationsSerializer, **DELETE_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def delete(self, request, _id):
-    return super().delete(self, request, _id)
+    return super().delete(request, _id)
 
 class ExperimentsMethods(BaseMethods):
   def __init__(self):
     super().__init__(serializer=ExperimentsSerializer, model=Experiments)
 
   @extend_schema(tags=['experiments'], request=ExperimentsSerializer, **POST_METHOD_DOCS)
-  @error_handler
-  def post(self, request, _id):
-    return super().post(self, request, _id)
+  @jwt_protection
+  def post(self, request):
+    return super().post(request)
 
   @extend_schema(tags=['experiments'], request=ExperimentsSerializer, **GET_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def get(self, request, _id):
-    return super().get(self, request, _id)
+    return super().get(request, _id)
 
   @extend_schema(tags=['experiments'], request=ExperimentsSerializer, **PUT_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def put(self, request, _id):
-    return super().put(self, request, _id)
+    return super().put(request, _id)
 
   @extend_schema(tags=['experiments'], request=ExperimentsSerializer, **DELETE_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def delete(self, request, _id):
-    return super().delete(self, request, _id)
+    return super().delete(request, _id)
 
 class SamplesMethods(BaseMethods):
   def __init__(self):
     super().__init__(serializer=SamplesSerializer, model=Samples)
   
   @extend_schema(tags=['samples'], request=SamplesSerializer, **POST_METHOD_DOCS)
-  @error_handler
-  def post(self, request, _id):
-    return super().post(self, request, _id)
+  @jwt_protection
+  def post(self, request):
+    return super().post(request)
 
   @extend_schema(tags=['samples'], request=SamplesSerializer, **GET_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def get(self, request, _id):
-    return super().get(self, request, _id)
+    return super().get(request, _id)
 
   @extend_schema(tags=['samples'], request=SamplesSerializer, **PUT_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def put(self, request, _id):
-    return super().put(self, request, _id)
+    return super().put(request, _id)
 
   @extend_schema(tags=['samples'], request=SamplesSerializer, **DELETE_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def delete(self, request, _id):
-    return super().delete(self, request, _id)
+    return super().delete(request, _id)
 
 class TestsMethods(BaseMethods):
   def __init__(self):
     super().__init__(serializer=TestsSerializer, model=Tests)
 
   @extend_schema(tags=['tests'], request=TestsSerializer, **POST_METHOD_DOCS)
-  @error_handler
-  def post(self, request, _id):
-    return super().post(self, request, _id)
+  @jwt_protection
+  def post(self, request):
+    return super().post(request)
 
   @extend_schema(tags=['tests'], request=TestsSerializer, **GET_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def get(self, request, _id):
-    return super().get(self, request, _id)
+    return super().get(request, _id)
 
   @extend_schema(tags=['tests'], request=TestsSerializer, **PUT_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def put(self, request, _id):
-    return super().put(self, request, _id)
+    return super().put(request, _id)
 
   @extend_schema(tags=['tests'], request=TestsSerializer, **DELETE_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def delete(self, request, _id):
-    return super().delete(self, request, _id)
+    return super().delete(request, _id)
   
 class ResultsMethods(BaseMethods):
   def __init__(self):
     super().__init__(serializer=ResultsSerializer, model=Results)
   
   @extend_schema(tags=['results'], request=ResultsSerializer, **POST_METHOD_DOCS)
-  @error_handler
-  def post(self, request, _id):
-    return super().post(self, request, _id)
+  @jwt_protection
+  def post(self, request):
+    return super().post(request)
 
   @extend_schema(tags=['results'], request=ResultsSerializer, **GET_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def get(self, request, _id):
-    return super().get(self, request, _id)
+    return super().get(request, _id)
 
   @extend_schema(tags=['results'], request=ResultsSerializer, **PUT_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def put(self, request, _id):
-    return super().put(self, request, _id)
+    return super().put(request, _id)
 
   @extend_schema(tags=['results'], request=ResultsSerializer, **DELETE_METHOD_DOCS)
-  @error_handler
+  @jwt_protection
   def delete(self, request, _id):
-    return super().delete(self, request, _id)
+    return super().delete(request, _id)
