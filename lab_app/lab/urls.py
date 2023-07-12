@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import LoginView, LogoutView, UserMethods, GroupsMethods,JoiningGroups, InvitationsMethods, ExperimentsMethods, SamplesMethods, TestsMethods, ResultsMethods
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
   path('login', LoginView.as_view(), name='login'),
@@ -19,4 +20,9 @@ urlpatterns = [
   path('tests/<int:_id>', TestsMethods.as_view(), name='tests_by_id'),
   path('results', ResultsMethods.as_view(), name='results'),
   path('results/<int:_id>', ResultsMethods.as_view(), name='results_by_id'),
+  # YOUR PATTERNS
+  path('schema/', SpectacularAPIView.as_view(), name='schema'),
+  # Optional UI:
+  path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+  path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

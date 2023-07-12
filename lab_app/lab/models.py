@@ -9,7 +9,7 @@ class Users(models.Model):
   updated_at = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
-    return f'{self.username}'
+    return 'users'
 
 class Groups(models.Model):
   name = models.CharField(max_length=25,unique=True)
@@ -19,7 +19,7 @@ class Groups(models.Model):
   updated_at = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
-    return f'{self.name}'
+    return 'groups'
 
 class Invitations(models.Model):
   _from = models.IntegerField()
@@ -30,7 +30,7 @@ class Invitations(models.Model):
   updated_at = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
-    return f'{self.token}'
+    return 'invitations'
 
 class Experiments(models.Model):
   name = models.CharField(max_length=25, unique=True)
@@ -40,7 +40,7 @@ class Experiments(models.Model):
   updated_at = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
-    return f'{self.name}'
+    return 'experiments'
 
 class Samples(models.Model):
   name = models.CharField(max_length=25, unique=True)
@@ -51,7 +51,7 @@ class Samples(models.Model):
   updated_at = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
-    return f'{self.name}'
+    return 'samples'
 
 class Tests(models.Model):
   name = models.CharField(max_length=25, unique=True)
@@ -60,7 +60,7 @@ class Tests(models.Model):
   updated_at = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
-    return f'{self.name}'
+    return 'tests'
 
 class Results(models.Model):
   value = models.CharField(max_length=255)
@@ -69,4 +69,4 @@ class Results(models.Model):
   updated_at = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
-    return f'{self.name}'
+    return 'results'

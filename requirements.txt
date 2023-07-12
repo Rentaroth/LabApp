@@ -2,3 +2,5 @@ django
 djangorestframework
 djangorestframework_simplejwt
 python-dotenv
+drf-spectacular
+drf-spectacular[sidecar]

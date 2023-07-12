@@ -2,6 +2,10 @@ from rest_framework import serializers
 from rest_framework import status
 from .models import Users, Groups, Invitations, Experiments, Samples, Tests, Results
 
+class LoginSerializer(serializers.Serializer):
+  username = serializers.CharField(max_length=25)
+  password = serializers.CharField(max_length=255)
+
 class UsersSerializer(serializers.ModelSerializer):
   username = serializers.CharField(max_length=25)
   email = serializers.EmailField(max_length=85)

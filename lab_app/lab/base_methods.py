@@ -4,6 +4,9 @@ from rest_framework import status
 from .decorators import error_handler
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
+from drf_spectacular.types import OpenApiTypes
+from .docs import GET_METHOD_DOCS, POST_METHOD_DOCS, PUT_METHOD_DOCS
 
 class BaseMethods(APIView):
   def __init__(self, serializer, model, **kwargs):
@@ -11,6 +14,7 @@ class BaseMethods(APIView):
     self.ViewSerializer = serializer
     self.model = model
 
+  @extend_schema(**POST_METHOD_DOCS)
   @error_handler
   def post(self, request):
     request.data.update({
@@ -24,14 +28,16 @@ class BaseMethods(APIView):
     else:
       return Response({ 'error': serializer.errors }, status=status.HTTP_409_CONFLICT)
 
+  @extend_schema(**GET_METHOD_DOCS)
   @error_handler
   def get(self, request, _id):
+
     obj = get_object_or_404(self.model, id=_id)
     dic = obj.__dict__
     del dic['_state']
     return Response({'result': dic}, status=status.HTTP_302_FOUND)
-        
   
+  @extend_schema(**PUT_METHOD_DOCS)
   @error_handler
   def put(self, request, _id):
     request.data.update({
