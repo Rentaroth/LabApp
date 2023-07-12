@@ -4,3 +4,7 @@ djangorestframework_simplejwt
 python-dotenv
 drf-spectacular
 drf-spectacular[sidecar]
+psycopg2
+dj-database-url
+gunicorn
+waitress

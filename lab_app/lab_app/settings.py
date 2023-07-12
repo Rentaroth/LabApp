@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+import dj_database_url
 
 load_dotenv()
 
@@ -96,10 +97,7 @@ WSGI_APPLICATION = 'lab_app.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default='postgres://lab_app_db_user:UAoV3VSdnrnlXaCwjmwjsDxnQIOIMUhb@dpg-cin5nv18g3nafl3boivg-a.oregon-postgres.render.com/lab_app_db')
 }
 
 
