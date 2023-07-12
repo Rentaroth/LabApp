@@ -1,4 +1,11 @@
 # Archivo de configuración de Gunicorn
+import os
+from django.conf import settings
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
+def get_application():
+    django_app = settings.WSGI_APPLICATION
+    return django_app
 
 # Dirección IP y puerto en el que Gunicorn escuchará las solicitudes
 bind = '0.0.0.0:3000'
@@ -15,16 +22,5 @@ errorlog = '/path/to/error.log'
 # Nivel de registro para el archivo de registro
 loglevel = 'info'
 
-# Nombre del módulo de la aplicación de Django y objeto de aplicación
-# (debe seguir el formato "<nombre_modulo>:<nombre_objeto>")
-# Por ejemplo: 'myproject.wsgi:application'
-app = 'lab_app.wsgi:lab'
-
-# Configuración adicional de Gunicorn
-# ...
-
-# Configuración de seguridad
-# ...
-
-# Configuración de rendimiento
-# ...
+os.environ['DJANGO_SETTINGS_MODULE'] = 'tu_proyecto.settings'
+app = get_application()
