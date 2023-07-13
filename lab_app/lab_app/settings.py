@@ -101,6 +101,18 @@ DATABASES = {
     'default': dj_database_url.config(default='postgres://lab_app_db_user:UAoV3VSdnrnlXaCwjmwjsDxnQIOIMUhb@dpg-cin5nv18g3nafl3boivg-a.oregon-postgres.render.com/lab_app_db')
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://default:qX0hcwBylKzQkY18n9EhMsuj09ulO6bR@redis-13564.c270.us-east-1-3.ec2.cloud.redislabs.com:13564',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

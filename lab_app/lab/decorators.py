@@ -1,5 +1,7 @@
 import jwt
 from rest_framework.response import Response
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
 def error_handler(func):
   def handler(*args, **kwargs):
@@ -27,6 +29,7 @@ def jwt_protection(func):
   def protection(self, request, *args, **kwargs):
     token = request.META.get('HTTP_AUTHORIZATION')
     validated = jwt.decode(token[7:], verify=True, algorithms=['HS256'])
-    request.data['validated_token'] = validated
+    if validated:
+      cached_token = cache.set(f'token', validated, 900)
     return func(self, request, *args, **kwargs)
   return protection

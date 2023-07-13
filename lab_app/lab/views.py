@@ -15,6 +15,7 @@ from django.conf import global_settings as settings
 from drf_spectacular.utils import extend_schema
 from drf_spectacular.types import OpenApiTypes
 from .docs import POST_METHOD_DOCS, GET_METHOD_DOCS, PUT_METHOD_DOCS, DELETE_METHOD_DOCS
+from django.core.cache import cache
 
 class LoginView(APIView):
   @error_handler
@@ -37,17 +38,6 @@ class LoginView(APIView):
       except Exception as err:
         print(str(err))
         return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
-
-class LogoutView(APIView):
-  @jwt_protection
-  def post(self, request):
-    try:
-      refresh_token = request.data['refresh_token']
-      token = RefreshToken(refresh_token)
-      token.blacklist()
-      return Response('Log out successfully')
-    except Exception as err:
-      return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserMethods(BaseMethods):
   def __init__(self):
@@ -106,7 +96,6 @@ class GroupsMethods(BaseMethods):
     dic['members'] = []
     for item in joins:
       item_dic = item.__dict__
-      print(item_dic)
       clean = {i: j for i, j in item_dic.items() if i not in ['_state', 'password']}
       dic['members'].append(clean)
     result = {i: j for i, j in dic.items() if i not in ['_state']}
@@ -153,8 +142,7 @@ class InvitationsMethods(BaseMethods):
   @extend_schema(tags=['invitations'], request=InvitationsSerializer, **POST_METHOD_DOCS)
   @jwt_protection
   def post(self, request):
-    _from = request.data['validated_token']
-    print(_from)
+    _from = cache.get('token')
     request.data.update({
       '_from': _from['id'],
       'created_at': timezone.now(),
